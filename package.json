@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/airbnb/polyglot.js.git"
+    "url": "git://github.com/bl/polyglot.js.git"
   },
   "keywords": [
     "i18n",
