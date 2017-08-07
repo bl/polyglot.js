@@ -1,6 +1,22 @@
 Polyglot.js
 ===========
 
+## Forked Changes
+### Issue
+By default, passing in an array to the `phrases:` attribute will result in the following translation phrases:
+- `items.0 == 'first'`
+- `items.1 == 'second'`
+- ...
+
+This works fairly well if you know how many entries are in the array provided, but for my personal use it would be more convenient to receive an array from the `items` translation.
+
+### Solution
+`items` now returns an array of transformed phrases in the same order as
+retrieved from the `phrases:` translations object.
+```js
+items == [ 'first', 'second' ]
+```
+
 [![Build Status][travis-image]][travis-url]
 
 [![Join the chat at https://gitter.im/airbnb/polyglot.js](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/airbnb/polyglot.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
