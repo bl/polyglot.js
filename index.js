@@ -222,7 +222,9 @@ Polyglot.prototype.locale = function (newLocale) {
 Polyglot.prototype.extend = function (morePhrases, prefix) {
   forEach(morePhrases, function (phrase, key) {
     var prefixedKey = prefix ? prefix + '.' + key : key;
-    if (typeof phrase === 'object') {
+    if (phrase !== undefined && phrase !== null && phrase.constructor === Array) {
+      this.phrases[prefixedKey] = phrase;
+    } else if (typeof phrase === 'object') {
       this.extend(phrase, prefixedKey);
     } else {
       this.phrases[prefixedKey] = phrase;
@@ -302,9 +304,13 @@ Polyglot.prototype.replace = function (newPhrases) {
 //     => "I like to write in JavaScript."
 //
 Polyglot.prototype.t = function (key, options) {
-  var phrase, result;
+  var phrase, result, results;
   var opts = options == null ? {} : options;
   if (typeof this.phrases[key] === 'string') {
+    phrase = this.phrases[key];
+  } else if (this.phrases[key] !== undefined &&
+    this.phrases[key] !== null &&
+    this.phrases[key].constructor === Array) {
     phrase = this.phrases[key];
   } else if (typeof opts._ === 'string') {
     phrase = opts._;
@@ -315,10 +321,16 @@ Polyglot.prototype.t = function (key, options) {
     this.warn('Missing translation for key: "' + key + '"');
     result = key;
   }
-  if (typeof phrase === 'string') {
-    result = transformPhrase(phrase, opts, this.currentLocale);
+
+  if (result != null) {
+    return result;
   }
-  return result;
+
+  phrase = phrase.constructor === Array ? phrase : [phrase];
+  results = phrase.map(function (currentPhrase) {
+    return (typeof currentPhrase === 'string') ? transformPhrase(currentPhrase, opts, this.currentLocale) : currentPhrase;
+  }, this);
+  return results.length === 1 ? results[0] : results;
 };
 
 

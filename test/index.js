@@ -8,6 +8,10 @@ describe('t', function () {
     hello: 'Hello',
     hi_name_welcome_to_place: 'Hi, %{name}, welcome to %{place}!',
     name_your_name_is_name: '%{name}, your name is %{name}!',
+    multiple_phrases: [
+      'Hi, %{name}, welcome to %{place}!',
+      '%{name}, your name is %{name}!'
+    ],
     empty_string: ''
   };
 
@@ -29,6 +33,17 @@ describe('t', function () {
       name: 'Spike',
       place: 'the webz'
     })).to.equal('Hi, Spike, welcome to the webz!');
+  });
+
+  it('interpolates with array objects', function () {
+    console.log(polyglot.t('multiple_phrases', {
+      name: 'Spike',
+      place: 'the webz'
+    }));
+    expect(polyglot.t('multiple_phrases', {
+      name: 'Spike',
+      place: 'the webz'
+    })).to.eql(['Hi, Spike, welcome to the webz!', 'Spike, your name is Spike!']);
   });
 
   it('interpolates with missing substitutions', function () {
@@ -244,6 +259,23 @@ describe('extend', function () {
     expect(polyglot.phrases).not.to.have.property('click');
     expect(polyglot.phrases).not.to.have.property('header.log_in');
     expect(polyglot.phrases).not.to.have.property('log_in');
+  });
+
+  it('supports array object', function () {
+    polyglot.extend({
+      sidebar: [
+        'Click',
+        'Hover'
+      ],
+      nav: {
+        header: [
+          'Register',
+          'Log In'
+        ]
+      }
+    });
+    expect(polyglot.t('sidebar')).to.eql(['Click', 'Hover']);
+    expect(polyglot.t('nav.header')).to.eql(['Register', 'Log In']);
   });
 });
 
