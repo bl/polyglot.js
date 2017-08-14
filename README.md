@@ -17,6 +17,17 @@ retrieved from the `phrases:` translations object.
 items == [ 'first', 'second' ]
 ```
 
+### Building
+Run the following command to build (requires RequireJS):
+```
+r.js -o name=index out=build/polyglot.js optimize=none
+```
+
+For minified version:
+```
+r.js -o name=index out=build/polyglot.min.js
+```
+
 [![Build Status][travis-image]][travis-url]
 
 [![Join the chat at https://gitter.im/airbnb/polyglot.js](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/airbnb/polyglot.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

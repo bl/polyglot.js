@@ -36,10 +36,6 @@ describe('t', function () {
   });
 
   it('interpolates with array objects', function () {
-    console.log(polyglot.t('multiple_phrases', {
-      name: 'Spike',
-      place: 'the webz'
-    }));
     expect(polyglot.t('multiple_phrases', {
       name: 'Spike',
       place: 'the webz'

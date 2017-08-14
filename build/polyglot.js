@@ -29,6 +29,10 @@ var warn = function warn(message) {
 var replace = String.prototype.replace;
 var split = String.prototype.split;
 
+function isPresent(obj) {
+  return obj !== undefined && obj !== null;
+}
+
 // #### Pluralization methods
 // The string that separates the different phrase possibilities.
 var delimeter = '||||';
@@ -222,7 +226,7 @@ Polyglot.prototype.locale = function (newLocale) {
 Polyglot.prototype.extend = function (morePhrases, prefix) {
   forEach(morePhrases, function (phrase, key) {
     var prefixedKey = prefix ? prefix + '.' + key : key;
-    if (phrase !== undefined && phrase !== null && phrase.constructor === Array) {
+    if (isPresent(phrase) && phrase.constructor === Array) {
       this.phrases[prefixedKey] = phrase;
     } else if (typeof phrase === 'object') {
       this.extend(phrase, prefixedKey);
@@ -308,9 +312,7 @@ Polyglot.prototype.t = function (key, options) {
   var opts = options == null ? {} : options;
   if (typeof this.phrases[key] === 'string') {
     phrase = this.phrases[key];
-  } else if (this.phrases[key] !== undefined &&
-    this.phrases[key] !== null &&
-    this.phrases[key].constructor === Array) {
+  } else if (isPresent(this.phrases[key]) && this.phrases[key].constructor === Array) {
     phrase = this.phrases[key];
   } else if (typeof opts._ === 'string') {
     phrase = opts._;
